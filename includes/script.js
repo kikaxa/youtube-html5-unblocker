@@ -23,13 +23,25 @@ function findPos(obj) {
 }
 
 var iframe = null;
+var hdiv1 = null;
+var notfoundmsg = null;
 
 updateIframe = function() {
     if (!iframe)
         return;
 
     var parts = document.URL.split("watch?v=");
-    if (parts.length < 2) return;
+    if (parts.length < 2) {
+        iframe.parentNode.removeChild(iframe);
+        iframe = null;
+        hdiv1.parentNode.removeChild(hdiv1);
+        hdiv1 = null;
+        if (notfoundmsg) {
+            notfoundmsg.parentNode.removeChild(notfoundmsg);
+            notfoundmsg = null;
+        }
+        return;
+    }
     var parts2 = parts[parts.length-1].split("&");
 
     var parts0 = document.URL.split("list=");
@@ -70,7 +82,7 @@ initFix = function () {
     iframe.setAttribute("allowfullscreen", "");
     updateIframe();
 
-    var hdiv1 = document.createElement("div");
+    hdiv1 = document.createElement("div");
 
     var title_1 = document.getElementById('masthead-positioner');
     if (title_1) //WTF?
@@ -120,12 +132,12 @@ initFix = function () {
         document.body.appendChild(iframe);
         document.body.appendChild(hdiv1);
 
-        var h1=document.createElement("button");
+        var notfoundmsg=document.createElement("button");
         var t1=document.createTextNode("Video not found. Click here to scroll to HTML5 enabled video at bottom of this page.");
-        h1.setAttribute("style", "height: 200px; width: 100%; text-align: center;");
-        h1.appendChild(t1);
-        h1.addEventListener("click", function () { scrollBottom(); }, false );
-        document.body.insertBefore(h1, document.body.firstChild);
+        notfoundmsg.setAttribute("style", "height: 200px; width: 100%; text-align: center;");
+        notfoundmsg.appendChild(t1);
+        notfoundmsg.addEventListener("click", function () { scrollBottom(); }, false );
+        document.body.insertBefore(notfoundmsg, document.body.firstChild);
     }
 
     //create size buttons
@@ -182,9 +194,9 @@ function checkURLchange(currentURL){
    if(currentURL != oldURL){
        oldURL = currentURL;
        if (iframe)
-            updateIframe();
+           setTimeout(updateIframe, 100);
        else
-           initFix();
+           setTimeout(initFix, 1500);
    }
 }
 
