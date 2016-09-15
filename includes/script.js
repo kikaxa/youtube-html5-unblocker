@@ -80,7 +80,6 @@ initFix = function () {
     iframe.setAttribute("height", window.innerHeight-20);
     iframe.setAttribute("frameborder", "0");
     iframe.setAttribute("allowfullscreen", "");
-    updateIframe();
 
     hdiv1 = document.createElement("div");
 
@@ -91,6 +90,11 @@ initFix = function () {
 
     //place new video window
     var pl = document.getElementById('player');
+    if (pl === null) {
+        pl = document.getElementById('placeholder-player');
+        if (pl)
+            pl.parentNode.style.maxWidth = "100000px"; //...
+    }
     if (pl != null) {
         //try to stop everything
        var i;
@@ -139,6 +143,8 @@ initFix = function () {
         notfoundmsg.addEventListener("click", function () { scrollBottom(); }, false );
         document.body.insertBefore(notfoundmsg, document.body.firstChild);
     }
+
+    updateIframe();
 
     //create size buttons
     var hb0=document.createElement("button");
@@ -196,7 +202,7 @@ function checkURLchange(currentURL){
        if (iframe)
            setTimeout(updateIframe, 100);
        else
-           setTimeout(initFix, 1500);
+           setTimeout(initFix, 200);
    }
 }
 
