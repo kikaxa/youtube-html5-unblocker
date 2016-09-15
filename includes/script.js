@@ -60,6 +60,9 @@ initFix = function () {
     if (iframe)
         return;
 
+    var parts = document.URL.split("watch?v=");
+    if (parts.length < 2) return;
+
     iframe = document.createElement("iframe");
     iframe.setAttribute("width", window.innerWidth-20);
     iframe.setAttribute("height", window.innerHeight-20);
