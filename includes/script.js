@@ -25,6 +25,9 @@ function findPos(obj) {
 var iframe = null;
 
 updateIframe = function() {
+    if (!iframe)
+        return;
+
     var parts = document.URL.split("watch?v=");
     if (parts.length < 2) return;
     var parts2 = parts[parts.length-1].split("&");
@@ -56,6 +59,7 @@ updateIframe = function() {
 initFix = function () {
     if (iframe)
         return;
+
     iframe = document.createElement("iframe");
     iframe.setAttribute("width", window.innerWidth-20);
     iframe.setAttribute("height", window.innerHeight-20);
@@ -108,22 +112,7 @@ initFix = function () {
         else
             pl1.appendChild(hdiv1);
 
-        setTimeout(function() { window.scrollTo(0,findPos(iframe)); }, 1000);
-
-        var pl1_ = document.getElementById('watch7-sidebar');
-        if (pl1_) {
-            pl1_.style.transition = "initial";
-            pl1_.style.marginTop = "0px";
-            pl1_.style.top = "0px";
-        }
-
-        var pl_c = document.getElementById('placeholder-player');
-        if (pl_c)
-            pl_c.parentNode.removeChild(pl_c);
-
-        var pl_c2 = document.getElementById('placeholder-playlist');
-        if (pl_c2)
-            pl_c2.parentNode.removeChild(pl_c2);
+        setTimeout(function() { window.scrollTo(0,findPos(iframe)); }, 700);
     } else {
         document.body.appendChild(iframe);
         document.body.appendChild(hdiv1);
@@ -189,7 +178,10 @@ var oldURL = "";
 function checkURLchange(currentURL){
    if(currentURL != oldURL){
        oldURL = currentURL;
-       updateIframe();
+       if (iframe)
+            updateIframe();
+       else
+           initFix();
    }
 }
 
