@@ -132,7 +132,7 @@ initFix = function () {
         document.body.appendChild(iframe);
         document.body.appendChild(hdiv1);
 
-        var notfoundmsg=document.createElement("button");
+        notfoundmsg=document.createElement("button");
         var t1=document.createTextNode("Video not found. Click here to scroll to HTML5 enabled video at bottom of this page.");
         notfoundmsg.setAttribute("style", "height: 200px; width: 100%; text-align: center;");
         notfoundmsg.appendChild(t1);
